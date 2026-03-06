@@ -6,7 +6,6 @@ export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
   const times = [5, 900, 1200];
   const [selectedTime, setSelectedTime] = useState();
-  const [taskFocused, setTaskFocused]  = useState(false);
 
   const timeFromat = (times) => {
     const minutes = Math.floor(times / 60);
@@ -16,30 +15,38 @@ export default function FocusTime({ focusTask, onBack }) {
 
 
   useEffect(()=>{
-        let intervalId;
+
+    let intervalId;
+
+    if(isRunning && selectedTime > 0){
         intervalId = setInterval(()=>{
             setSelectedTime(prev => prev - 1)
-        },1000)        
+        },1000)          
+    }
+      
 
 
-     if(!isRunning || selectedTime <= 0) {
+     if(!isRunning || selectedTime < 0) {
         clearInterval(intervalId);
     }
     
-    else if(selectedTime == 0){
-        Alert.alert(
-        'you have focused on ....'
-        )
+    else if(selectedTime === 0){ 
+        Alert.alert(`You have successfully focused on ${focusTask}`)
+        setIsRunning(false);
     }
     return () => clearInterval(intervalId);
 
   },[isRunning, selectedTime])
 
+  const showSuccess = () => {
+    Alert.alert(`You have successfully focused on ${focusTask}`)
+  }
+
 
   return(
     <SafeAreaView style={styles.container}>
         <Text style={styles.timerText}>
-            {selectedTime ? timeFromat(selectedTime) : '10:00'}
+            {selectedTime ? timeFromat(selectedTime) : '00:00'}
         </Text>
         <Text style={styles.subTitle}> Focusing on : </Text>
         <Text style={styles.focusTask}>{focusTask}</Text>
