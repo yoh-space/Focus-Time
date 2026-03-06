@@ -45,6 +45,7 @@ export default function App(){
           onChangeText = {(text)=> setTask(text)}
 
         />
+
         <TouchableOpacity style={styles.fabButton} onPress={() => {
           addTask();
           changeScreen();
@@ -55,10 +56,9 @@ export default function App(){
 
       <View style={styles.focusedTasks}>
         <Text style={styles.focusTitle}>  Things we've focused on: </Text>
-        {tasks.map((task,index) => (
-          <Text key={index} style={styles.taskText}>{task}</Text>
+        {tasks.map((text, index) => (
+          <Text key={index} style={styles.taskText}ss>{text}</Text>
         ))}
-        
         <View style={{padding: 20}}>
 
         </View>
