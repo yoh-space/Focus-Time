@@ -3,6 +3,8 @@ import { SafeAreaView  } from 'react-native-safe-area-context';
 import {TextInput } from 'react-native-paper';
 import { useState } from 'react';
 import FocusTime from './components/FocusTime';
+import { SystemBars} from 'react-native-edge-to-edge';
+
 
 export default function App(){
 
@@ -35,6 +37,8 @@ export default function App(){
 
   return(
     <SafeAreaView style={styles.container}>
+
+      <SystemBars style="light"/>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder = "What would you like to focus ..."

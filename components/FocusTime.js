@@ -1,6 +1,8 @@
 import { useState , useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { SystemBars} from 'react-native-edge-to-edge';
 
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
@@ -14,8 +16,15 @@ export default function FocusTime({ focusTask, onBack }) {
   }
 
 
-  useEffect(()=>{
+  const showToast = () => {
+    Toast.show({
+        position: 'bottom',
+        type: 'info',
+        text1: `You have successfully focused on ${focusTask}`,
+    })
+  }
 
+  useEffect(()=>{
     let intervalId;
 
     if(isRunning && selectedTime > 0){
@@ -23,15 +32,13 @@ export default function FocusTime({ focusTask, onBack }) {
             setSelectedTime(prev => prev - 1)
         },1000)          
     }
-      
-
 
      if(!isRunning || selectedTime < 0) {
         clearInterval(intervalId);
     }
     
     else if(selectedTime === 0){ 
-        Alert.alert(`You have successfully focused on ${focusTask}`)
+        showToast();
         setIsRunning(false);
     }
     return () => clearInterval(intervalId);
@@ -45,6 +52,9 @@ export default function FocusTime({ focusTask, onBack }) {
 
   return(
     <SafeAreaView style={styles.container}>
+        
+        <SystemBars style="light" />
+
         <Text style={styles.timerText}>
             {selectedTime ? timeFromat(selectedTime) : '00:00'}
         </Text>
@@ -68,6 +78,9 @@ export default function FocusTime({ focusTask, onBack }) {
         <TouchableOpacity style={styles.backButton} onPress={onBack}>
             <Text style={{color: 'white'}}>Back</Text>
         </TouchableOpacity>
+        
+        <Toast />
+
     </SafeAreaView>
   )
 }
