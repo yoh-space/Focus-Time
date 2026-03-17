@@ -1,8 +1,9 @@
 import { useState , useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { SystemBars} from 'react-native-edge-to-edge';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
@@ -52,34 +53,37 @@ export default function FocusTime({ focusTask, onBack }) {
 
   return(
     <SafeAreaView style={styles.container}>
-        
-        <SystemBars style="light" />
+        <ImageBackground style={styles.imageBackground} resizeMode= 'cover' source={require('../assets/images/TaskScrollBackground.png')}>
+            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+                <Ionicons name="chevron-back" size={24} color="white" />
+                <Text style={{color: 'white'}}>Back</Text>
+            </TouchableOpacity>      
+            <SystemBars style="light" />
 
-        <Text style={styles.timerText}>
-            {selectedTime ? timeFromat(selectedTime) : '00:00'}
-        </Text>
-        <Text style={styles.subTitle}> Focusing on : </Text>
-        <Text style={styles.focusTask}>{focusTask}</Text>
-        
-        <View style={{height: 10, width: '100%', backgroundColor: '#241b9a', marginTop: 30, marginBottom: 20}}/> 
+            <Text style={styles.timerText}>
+                {selectedTime ? timeFromat(selectedTime) : '00:00'}
+            </Text>
+            <Text style={styles.subTitle}> Focusing on : </Text>
+            <Text style={styles.focusTask}>{focusTask}</Text>
+            
+            <View style={{height: 10, width: '100%', backgroundColor: '#241b9a', marginTop: 30, marginBottom: 20}}/> 
 
-        <View style={styles.timeOptions}>
-            {times.map((time, index) => (
-                <TouchableOpacity key={index} style={styles.timeOptionsButton} onPress={() => setSelectedTime(time)}>
-                    <Text style={styles.timeOptionsText}>{timeFromat(time)}</Text>
-                </TouchableOpacity>
-            ))}
-        </View>   
+            <View style={styles.timeOptions}>
+                {times.map((time, index) => (
+                    <TouchableOpacity key={index} style={styles.timeOptionsButton} onPress={() => setSelectedTime(time)}>
+                        <Text style={styles.timeOptionsText}>{timeFromat(time)}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>   
 
-        <TouchableOpacity style={styles.startFab} onPress={() => {setIsRunning(!isRunning)}}>
-            <Text style={{color: 'white'}}>{isRunning ? 'Stop' : 'Start'}</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.startFab} onPress={() => {setIsRunning(!isRunning)}}>
+                <Text style={{color: 'white'}}>{isRunning ? 'Stop' : 'Start'}</Text>
+            </TouchableOpacity>
+            
+            <Toast />
 
-        <TouchableOpacity style={styles.backButton} onPress={onBack}>
-            <Text style={{color: 'white'}}>Back</Text>
-        </TouchableOpacity>
-        
-        <Toast />
+        </ImageBackground>
+    
 
     </SafeAreaView>
   )
@@ -89,6 +93,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#252250',
+        alignItems: 'center',
+    },
+    imageBackground:{
+        flex: 1,
         alignItems: 'center',
     },
     timerText: {
@@ -141,14 +149,13 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     backButton: {
-        marginTop: 50,
-        height: 50,
-        width: 100,
+        flexDirection : 'row',
+        height: 40,
+        width: 80,
         borderRadius: 25,
         backgroundColor: 'transparent',
-        borderWidth: 2,
-        borderColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'flex-start',
     }    
 })

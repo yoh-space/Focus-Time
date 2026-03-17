@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Pressable} from 'react-native';
 import { SafeAreaView  } from 'react-native-safe-area-context';
 import {TextInput } from 'react-native-paper';
 import { useState } from 'react';
@@ -60,12 +60,15 @@ export default function App(){
 
       <View style={styles.focusedTasks}>
         <Text style={styles.focusTitle}>  Things we've focused on: </Text>
-        {tasks.map((text, index) => (
-          <Text key={index} style={styles.taskText}ss>{text}</Text>
-        ))}
-        <View style={{padding: 20}}>
-
-        </View>
+        <ImageBackground style={styles.taskBackground} source= { require('./assets/images/TaskScrollBackground.png')} resizeMode='cover'>
+          <ScrollView style={{padding: 20}} contentContainerStyle={{gap: 10, marginTop: 0}}>
+            {tasks.map((text, index) => (
+              <Pressable key={index} onPress={() => {changeScreen(); setSelectedTask(text);}} >
+                <Text key={index} style={styles.taskText}>- {text}</Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </ImageBackground>
 
       </View>
     </SafeAreaView>
@@ -101,6 +104,8 @@ const styles = StyleSheet.create({
   },
   focusedTasks:{
     marginTop: 20,
+    padding: 10,
+    flex: 1,
   },
   focusTitle:{
     fontWeight: 'bold',
@@ -109,9 +114,17 @@ const styles = StyleSheet.create({
     color : 'white'
   },
   taskText: {
-    fontWeight: 'semi-bold',
-    frontSize: 18, 
+    fontWeight: 'bold',
+    fontSize: 20, 
     color: 'white',
     padding: 10,
+  },
+  taskBackground:{
+    flex: 1,
+    resizeMode: 'cover',
+    overflow: 'hidden',
+    borderRadius: 20,
+    marginTop: 10
+
   }
 })
