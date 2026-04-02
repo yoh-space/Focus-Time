@@ -1,1 +1,0 @@
-this is test app from expo managed workflow
