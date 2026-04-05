@@ -22,7 +22,7 @@ export default function App(){
       setTask("");
       setSelectedTask(trimmed);
       router.push({
-        pathname: '/features/otherfeatures/newScreen',
+        pathname: '/focusTime',
         params: { focusTask: trimmed }
       })
     
