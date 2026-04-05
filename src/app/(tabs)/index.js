@@ -22,7 +22,7 @@ export default function App(){
       setTask("");
       setSelectedTask(trimmed);
       router.push({
-        pathname: '/focusTime',
+        pathname: '/features/otherfeatures/newScreen',
         params: { focusTask: trimmed }
       })
     
@@ -54,7 +54,7 @@ export default function App(){
 
       <View style={styles.focusedTasks}>
         <Text style={styles.focusTitle}>  Things we've focused on: </Text>
-        <ImageBackground style={styles.taskBackground} source= { require('../../assets/images/TaskScrollBackground.png')} resizeMode='cover'>
+        <ImageBackground style={styles.taskBackground} source= { require('../../../assets/images/TaskScrollBackground.png')} resizeMode='cover'>
           <ScrollView style={{padding: 20}} contentContainerStyle={{gap: 10, marginTop: 0}}>
             {tasks.map((text, index) => (
               <Pressable key={index} onPress={() => {changeScreen(); setSelectedTask(text);}} >

@@ -1,5 +1,5 @@
 import { useState , useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { SystemBars} from 'react-native-edge-to-edge';
@@ -49,14 +49,11 @@ export default function FocusTime() {
 
   },[isRunning, selectedTime])
 
-  const showSuccess = () => {
-    Alert.alert(`You have successfully focused on ${focusTask}`)
-  }
-
 
   return(
-    <SafeAreaView style={styles.container}>
-        <ImageBackground style={styles.imageBackground} resizeMode= 'cover' source={require('../../assets/images/TaskScrollBackground.png')}>
+        <ImageBackground style={styles.imageBackground} resizeMode= 'cover' source={require('../../../assets/images/TaskScrollBackground.png')}>
+        <SafeAreaView style={styles.container} edges={['top']}>
+            <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity style={styles.backButton} onPress={()=> router.back()}>
                 <Ionicons name="chevron-back" size={24} color="white" />
                 <Text style={{color: 'white'}}>Back</Text>
@@ -82,20 +79,18 @@ export default function FocusTime() {
             <TouchableOpacity style={styles.startFab} onPress={() => {setIsRunning(!isRunning)}}>
                 <Text style={{color: 'white'}}>{isRunning ? 'Stop' : 'Start'}</Text>
             </TouchableOpacity>
-            
-            <Toast />
+        </ScrollView>
+    <Toast />
 
+        </SafeAreaView>
         </ImageBackground>
-    
-
-    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#252250',
+        backgroundColor: 'transparent',
         alignItems: 'center',
     },
     imageBackground:{
