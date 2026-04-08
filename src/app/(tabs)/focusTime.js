@@ -4,11 +4,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { SystemBars} from 'react-native-edge-to-edge';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { router , useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
+import { useTasks } from "../../contexts/taskContexts";
 
 export default function FocusTime() {
 
-  const { focusTask } = useLocalSearchParams();
+
+  const { setTasks, selectedTask} = useTasks();
+
+  const focusTask = selectedTask;
   
   const [isRunning, setIsRunning] = useState(false);
   const times = [5, 900, 1200];
@@ -44,6 +48,8 @@ export default function FocusTime() {
     else if(selectedTime === 0){ 
         showToast();
         setIsRunning(false);
+        setTasks( prev =>[...prev, selectedTask]);
+
     }
     return () => clearInterval(intervalId);
 
@@ -54,7 +60,10 @@ export default function FocusTime() {
         <ImageBackground style={styles.imageBackground} resizeMode= 'cover' source={require('../../../assets/images/TaskScrollBackground.png')}>
         <SafeAreaView style={styles.container} edges={['top']}>
             <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.backButton} onPress={()=> router.back()}>
+            <TouchableOpacity style={styles.backButton} onPress={()=> { 
+                router.back();
+                setSelectedTime(null);
+            }}>
                 <Ionicons name="chevron-back" size={24} color="white" />
                 <Text style={{color: 'white'}}>Back</Text>
             </TouchableOpacity>      

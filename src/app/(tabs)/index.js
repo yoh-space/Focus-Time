@@ -4,13 +4,12 @@ import {TextInput } from 'react-native-paper';
 import { useState } from 'react';
 import { SystemBars} from 'react-native-edge-to-edge';
 import { router } from 'expo-router';
+import { useTasks } from '../../contexts/taskContexts';
+
 
 
 export default function App(){
-
-  const [task , setTask ] = useState("");
-  const [tasks, setTasks] = useState([]); 
-  const [selectedTask, setSelectedTask] = useState("");
+  const { task, setTask, tasks, setSelectedTask } = useTasks();
 
 
   const addTask = ( ) => {
@@ -18,12 +17,10 @@ export default function App(){
 
     if (trimmed.length > 0)
     {
-      setTasks( prev =>[...prev, trimmed]);
       setTask("");
       setSelectedTask(trimmed);
       router.push({
         pathname: '/focusTime',
-        params: { focusTask: trimmed }
       })
     
     }
