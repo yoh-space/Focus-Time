@@ -6,10 +6,10 @@ import { SystemBars} from 'react-native-edge-to-edge';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from "expo-router";
 import { useTasks } from "../../contexts/taskContexts";
-
+import { useColors } from "../../contexts/colorContext";
 export default function FocusTime() {
 
-
+  const { colors } = useColors();
   const { setTasks, selectedTask} = useTasks();
 
   const focusTask = selectedTask;
@@ -57,42 +57,39 @@ export default function FocusTime() {
 
 
   return(
-        <ImageBackground style={styles.imageBackground} resizeMode= 'cover' source={require('../../../assets/images/TaskScrollBackground.png')}>
-        <SafeAreaView style={styles.container} edges={['top']}>
-            <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.backButton} onPress={()=> { 
+        <SafeAreaView style={[styles.container,{backgroundColor: colors.background}]} edges={['top']}>
+            <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity style={[styles.backButton, {backgroundColor: colors.background}]} onPress={()=> { 
                 router.back();
                 setSelectedTime(null);
             }}>
-                <Ionicons name="chevron-back" size={24} color="white" />
-                <Text style={{color: 'white'}}>Back</Text>
+                <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
+                <Text style={{color: colors.textPrimary}}>Back</Text>
             </TouchableOpacity>      
-            <SystemBars style="light" />
 
-            <Text style={styles.timerText}>
+            <Text style={[styles.timerText, {color: colors.textPrimary}]}>
                 {selectedTime ? timeFromat(selectedTime) : '00:00'}
             </Text>
-            <Text style={styles.subTitle}> Focusing on : </Text>
-            <Text style={styles.focusTask}>{focusTask}</Text>
+            <Text style={[styles.subTitle, {color: colors.textPrimary}]}> Focusing on : </Text>
+            <Text style={[styles.focusTask, {color: colors.textPrimary}]}>{focusTask}</Text>
             
-            <View style={{height: 10, width: '100%', backgroundColor: '#241b9a', marginTop: 30, marginBottom: 20}}/> 
+            <View style={{height: 10, width: '100%', backgroundColor: colors.surface, marginTop: 30, marginBottom: 20}}/> 
 
-            <View style={styles.timeOptions}>
+            <View style={[styles.timeOptions,{backgroundColor: colors.background}]}>
                 {times.map((time, index) => (
-                    <TouchableOpacity key={index} style={styles.timeOptionsButton} onPress={() => setSelectedTime(time)}>
-                        <Text style={styles.timeOptionsText}>{timeFromat(time)}</Text>
+                    <TouchableOpacity key={index} style={[styles.timeOptionsButton,{backgroundColor: colors.background}]} onPress={() => setSelectedTime(time)}>
+                        <Text style={[styles.timeOptionsText,{color: colors.textPrimary}]}>{timeFromat(time)}</Text>
                     </TouchableOpacity>
                 ))}
             </View>   
 
             <TouchableOpacity style={styles.startFab} onPress={() => {setIsRunning(!isRunning)}}>
-                <Text style={{color: 'white'}}>{isRunning ? 'Stop' : 'Start'}</Text>
+                <Text style={{color: colors.textPrimary}}>{isRunning ? 'Stop' : 'Start'}</Text>
             </TouchableOpacity>
         </ScrollView>
     <Toast />
 
         </SafeAreaView>
-        </ImageBackground>
   )
 }
 
