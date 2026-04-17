@@ -62,7 +62,7 @@ export default function App() {
         />
 
         <TouchableOpacity
-          style={[styles.fabButton, { backgroundColor: colors.textPrimary }]}
+          style={[styles.fabButton, { backgroundColor: colors.background }]}
           onPress={() => {
             addTask();
           }}
