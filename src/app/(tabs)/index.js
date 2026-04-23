@@ -6,9 +6,9 @@ import {
   ImageBackground,
   ScrollView,
   Pressable,
+  TextInput
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TextInput } from "react-native-paper";
 import { useState } from "react";
 import { SystemBars } from "react-native-edge-to-edge";
 import { router } from "expo-router";
@@ -49,60 +49,64 @@ export default function App() {
       style={[styles.container, { backgroundColor: colors.background }]}
     >
       <SystemBars style={statusBarStyle} />
+      <View style={[styles.header, { backgroundColor: colors.background}]}>
+        <Text style={[styles.headerTitle, { color: colors.textPrimary}]}>Focus</Text>
+        <Text style={[styles.headerSubTitle, { color: colors.textSecondary }]}> What do you want to work on ?</Text>
+      </View>
       <View
-        style={[styles.inputContainer, { backgroundColor: colors.background }]}
+        style={[styles.inputContainer, { backgroundColor: colors.background, }]}
       >
         <TextInput
           placeholder="What would you like to focus ..."
-          mode={"outlined"}
-          label="Focus"
-          style={styles.InputText}
+          placeholderTextColor={colors.textSecondary}
+          style={[styles.InputText, { backgroundColor: colors.surface, color: colors.textPrimary, borderRadius: 10, paddingHorizontal: 15 }]}
           value={task}
           onChangeText={(text) => setTask(text)}
         />
 
         <TouchableOpacity
-          style={[styles.fabButton, { backgroundColor: colors.background }]}
+          style={[styles.fabButton, { backgroundColor: colors.background, borderColor: colors.outline }]}
           onPress={() => {
             addTask();
           }}
         >
-          <Text style={styles.fabText}>+</Text>
+          <Text style={[styles.fabText, { color: colors.primary}]}>+</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.focusedTasks}>
         <Text style={[styles.focusTitle, { color: colors.textPrimary }]}>
           {" "}
-          Things we've focused on:{" "}
+          Previous Focused Tasks: {" "}
         </Text>
-        <ImageBackground
-          style={styles.taskBackground}
-          source={require("../../../assets/images/TaskScrollBackground.png")}
-          resizeMode="cover"
-        >
           <ScrollView
             style={{ padding: 20 }}
             contentContainerStyle={{ gap: 10, marginTop: 0 }}
           >
             {tasks.map((text, index) => (
               <Pressable
+                style={[styles.tasksList, { backgroundColor: colors.surface }]}
                 key={index}
                 onPress={() => {
-                  changeScreen();
                   setSelectedTask(text);
+                  router.push({
+                    pathname: "/focusTime",
+                  })
                 }}
               >
+                <Text style={[styles.taskText1, { color: colors.textSecondary }]}>
+                  {index + 1}.
+                </Text>
+
                 <Text
                   key={index}
                   style={[styles.taskText, { color: colors.textPrimary }]}
                 >
-                  - {text}
+                {text}
                 </Text>
               </Pressable>
             ))}
           </ScrollView>
-        </ImageBackground>
       </View>
     <Toast />
     </View>
@@ -113,17 +117,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header:{
+    padding: 20,
+  },
+  headerTitle: {
+    fontWeight: "bold",
+    fontSize: 28,
+  },
+  headerSubTitle:{
+    fontSize: 18,
+    color: "white",
+  },
   inputContainer: {
     flexDirection: "row",
     padding: 20,
   },
   InputText: {
     flex: 1,
+    fontSize: 14
   },
   fabButton: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent",
@@ -136,7 +152,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   focusedTasks: {
-    marginTop: 20,
+    marginTop: 10,
     padding: 10,
     flex: 1,
   },
@@ -151,6 +167,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     padding: 10,
+    textDecorationLine: "line-through",
+  },
+  taskText1: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "white",
+    padding: 10,
   },
   taskBackground: {
     flex: 1,
@@ -159,4 +182,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 10,
   },
+  tasksList:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
+  }
 });
