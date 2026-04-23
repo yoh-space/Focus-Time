@@ -57,7 +57,7 @@ export default function FocusTime() {
 
 
   return(
-        <SafeAreaView style={[styles.container,{backgroundColor: colors.background}]} edges={['top']}>
+        <View style={[styles.container,{backgroundColor: colors.background}]} edges={['top']}>
             <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity style={[styles.backButton, {backgroundColor: colors.background}]} onPress={()=> { 
                 router.back();
@@ -89,7 +89,7 @@ export default function FocusTime() {
         </ScrollView>
     <Toast />
 
-        </SafeAreaView>
+        </View>
   )
 }
 

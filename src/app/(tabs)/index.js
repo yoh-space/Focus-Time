@@ -45,7 +45,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={[styles.container, { backgroundColor: colors.background }]}
     >
       <SystemBars style={statusBarStyle} />
@@ -105,7 +105,7 @@ export default function App() {
         </ImageBackground>
       </View>
     <Toast />
-    </SafeAreaView>
+    </View>
   );
 }
 

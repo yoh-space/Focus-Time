@@ -10,21 +10,6 @@ import { useEffect, useState } from "react";
 import { setItems, getItems } from "../../utils/storage";
 
 export default function Layout() {
-  const [showOnboarding, setShowOnboarding] = useState(true);
-
-    const checkOnboardingStatus = async () => {
-        try {
-            const onboardingCompleted = await getItems("onboardingCompleted");
-            setShowOnboarding(onboardingCompleted !== "true");
-        } catch (error) {
-            console.error("Error checking onboarding status:", error);
-        }
-    };
-  useEffect(() => {
-    checkOnboardingStatus();
-  }, []);
-
-  const TabLayout = () => {
     const { colors, statusBarStyle } = useColors();
     return (
       <>
@@ -71,22 +56,3 @@ export default function Layout() {
       </>
     );
   };
-
-  if (showOnboarding) {
-    return <OnBoarding />;
-  }
-
-  else if (!showOnboarding) {
-    return (
-      <ColorProvider>
-        <TaskProvider>
-          <TabLayout />
-        </TaskProvider>
-      </ColorProvider>
-    );
-    }
-
-    else {
-        return null;
-    }
-}
